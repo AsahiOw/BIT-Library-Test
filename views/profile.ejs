@@ -1,0 +1,15 @@
+<%- include('partials/header'); -%>
+<header>
+    <div class="headings">
+        <h2>User Profile</h2>
+        <h3>Name:<%= user.firstName %> <%= user.lastName %></h3>
+        <h3>Email:<%= user.email %></h3>
+        <a href="/borrow" class="btn">Book borrowed</a>
+        <a href="/favourite" class="btn">Favourite</a>
+        <a href="/author" class="btn">Add author</a>
+        <a href="/book" class="btn">Add book</a>
+        <a href="/category" class="btn">Add category</a>
+        <a href="/publisher" class="btn">Add publisher</a>
+      </div>
+</header>
+<%- include('partials/footer'); -%>
