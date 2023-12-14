@@ -15,9 +15,6 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// this function will run after the data saved to database (doc = data saved in the database)
-// userSchema.post
-
 // this function will run before the data saved to database (Hash function with 'salt' using bcript)
 userSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt();

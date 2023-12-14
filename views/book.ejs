@@ -1,12 +1,14 @@
 <%- include('partials/header'); -%>
-<form>
+<form action="/book">
     <h2>Add Book</h2>
     <lable for="ISBN">ISBN</lable>
     <input type="text" name="ISBN"/>
     <div class="ISBN error"></div>
+
     <lable for="title">title</lable>
     <input type="text" name="title"/>
     <div class="title error"></div>
+
     <lable for="numberofpages">Number Of Pages</lable>
     <input type="number" name="numberofpages"/>
     <div class="numberofpages error"></div>
@@ -34,14 +36,17 @@
       <% }); %>
     </select>
     <div class="publisher error"></div>
+
     <lable for="bookCountAvailable">Number of Book</lable>
-    <input type="number" name="bookCountAvailable"/>
+    <input type="number" id="bookCountAvailable" name="bookCountAvailable"/>
     <div class="bookCountAvailable error"></div>
 
     <lable for="description">Description</lable>
-    <textarea name="description" rows="5" cols="40">Book description</textarea>
+    <textarea name="description" id="description" rows="5" cols="40">Book description</textarea>
     <div class="description error"></div>
+
     <button>Add</button>
+
 </form>
 <div id="successAlert" style="display: none;">
     <p>Data saved successfully!</p>
@@ -54,6 +59,7 @@
     const titleError = document.querySelector('.title.error');
     const numberofpagesError = document.querySelector('.numberofpages.error');
     const bookCountAvailableError = document.querySelector('.bookCountAvailable.error');
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         //reset errors
@@ -71,19 +77,21 @@
         const category = form.category.value;
         const bookCountAvailable = form.bookCountAvailable.value;
         const description = form.description.value;
-
+        // console.log(ISBN, title, publisher, author, numberofpages, category, bookCountAvailable, description);
         try{
             const res = await fetch('/book', {
                 method: 'POST',
-                body: JSON.stringify({ISBN,
-                  title, 
-                  publisher: document.getElementsByName('publisher')[0].value, 
-                  author: document.getElementsByName('author')[0].value, 
-                  numberofpages, 
-                  category: document.getElementsByName('category')[0].value}),
-                  bookCountAvailable,
-                  description,
-                headers: { 'Content-Type': 'application/json'}
+                body: JSON.stringify({
+                    ISBN,
+                    title,
+                    publisher: document.getElementsByName('publisher')[0].value,
+                    author: document.getElementsByName('author')[0].value,
+                    numberofpages,
+                    category: document.getElementsByName('category')[0].value,
+                    bookCountAvailable,
+                    description,
+                }),
+                headers: { 'Content-Type': 'application/json' },
             });
             const data = await res.json();
             console.log(data);

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
-    ISBN: { type: String, required: [true, 'ISBN must be filled']},
+    ISBN: { type: String, required: [true, 'ISBN must be filled'], unique: true},
     title: { type: String, required: [true, 'Title need to be filled']},
     publisher: { type: mongoose.Schema.Types.ObjectId, ref: 'publisher'},
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'author'},

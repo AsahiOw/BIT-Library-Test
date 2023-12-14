@@ -105,16 +105,9 @@ const handleErrors2 = (err) => {
 
     // Duplicate Error Code for similar name
     if (err.code == 11000) {
-        errors.name = 'This name has been registered';
+        errors.ISBN = 'This ISBN has been registered';
         return errors;
     }
-
-    // Duplicate Error Code for similar 
-    // if (err.code == 11000) {
-    //     // errors.title = 'Similar title';
-    //     // return errors;
-    //     pass;
-    // }
 
     // check for type of error
     if (err.message.includes('author validation failed')) {
@@ -173,7 +166,11 @@ module.exports.book_post = async (req, res) => {
     const {ISBN, title, author, category, publisher, numberofpages, bookCountAvailable, description} = req.body;
     try {
         const book = await Book.create({ISBN, title, author, category, publisher, numberofpages, bookCountAvailable, description});
-        res.status(200).json(book);
+        // Update the author with the book ID
+        const updatedAuthor = await Author.findOneAndUpdate({ _id: author }, { $push: { book: book._id } }, { new: true });
+        const updatedCategory = await Category.findOneAndUpdate({ _id: category }, { $push: { book: book._id } }, { new: true });
+        const updatedPublisher = await Publisher.findOneAndUpdate({ _id: publisher }, { $push: { book: book._id } }, { new: true });
+        res.status(200).json(book, updatedAuthor, updatedCategory, updatedPublisher);
     }
     catch (err) {
         const errors = handleErrors2(err);
